@@ -1,0 +1,13 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+
+<div class="container">
+    <h1><%= admin.name %> خوش آمدید</h1>
+    <div class="grid grid-3">
+        <a href="/admins/classes" class="btn btn-primary">مدیریت کلاس ها</a>
+        <a href="/admins/students" class="btn btn-primary">مدیریت دانش آموزان</a>
+        <a href="/admins/teachers" class="btn btn-primary">مدیریت معلمین</a>
+        <a href="/admins/quizes" class="btn btn-primary">مدیریت آزمون ها</a>
+    </div>
+</div>
+
+<%- include('../includes/bottom.ejs') %>

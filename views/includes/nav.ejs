@@ -1,0 +1,24 @@
+<nav>
+    <ul>
+        <li class="<%= path === '/' ? 'active' : ''%>">
+            <a href="/">صفحه اصلی</a>
+        </li>
+        <li><a href="/about">درباره ما</a></li>
+    </ul>
+    <ul>
+        <% if(isLoggedIn) { %>
+        <li>
+            <form action="/logout" method="POST">
+                <button type="submit">خروج</button>
+            </form>
+        </li>
+        <% } else { %>
+        <li class="<%= path === '/login' ? 'active' : ''%>">
+            <a href="/login">ورود</a>
+        </li>
+        <li class="<%= path === '/register' ? 'active' : ''%>">
+            <a href="/register">ایجاد حساب</a>
+        </li>
+        <% } %>
+    </ul>
+</nav>

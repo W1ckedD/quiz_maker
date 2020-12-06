@@ -1,0 +1,52 @@
+:root {
+    --primary-color: #fc5364;
+    --secondary-color: #8a9596;
+}
+
+.modal-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.modal {
+    background-color: white;
+    box-shadow: 0 0 10px #ccc;
+    border-radius: 5px;
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    padding: 2rem;
+    animation-name: modalopen;
+    animation-duration: 0.5s;
+}
+
+.modal-head {
+    margin-bottom: 1rem;
+}
+
+.modal-options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-container.modal-show {
+    display: block;
+    opacity: 1;
+}
+
+@keyframes modalopen {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

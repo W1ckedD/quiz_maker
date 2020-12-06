@@ -44,6 +44,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/students', require('./routes/students'));
+app.use('/teachers', require('./routes/teahcers'));
 app.use('/admins', require('./routes/admins'));
 app.get('/register', (req, res) => {
     return res.render('register.ejs', { path: '/register' });
@@ -59,7 +61,15 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    return res.render('index.ejs', { path: '/' });
+    if (req.session.admin) {
+        return res.redirect('/admins/dashboard');
+    } else if (req.session.student) {
+        return res.redirect('/students/dashboard');
+    } else if (req.session.teacher) {
+        return res.redirect('/teachers/dashboard');
+    } else {
+        return res.render('index.ejs', { path: '/' });
+    }
 });
 
 const { PORT, NODE_ENV } = process.env;

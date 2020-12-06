@@ -1,0 +1,65 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+<div class="container">
+    <div class="center">
+        <div class="card">
+            <div class="card-head">
+                <h2>افزودن کلاس</h2>
+            </div>
+            <div class="card-body">
+                <form action="/admins/manage-classes/add-class" method="POST">
+                    <div class="form-group">
+                        <label for="name">نام</label>
+                        <input type="text" name="name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="teacher">معلم</label>
+                        <select name="teacher" class="form-control">
+                            <option value="" disabled selected>
+                                استاد را انتخاب کنید
+                            </option>
+                            <%if (teachers.length !== 0 ) { %> <%
+                            teachers.forEach(teacher => { %>
+                            <option value="<%= teacher._id %>">
+                                <%= teacher.name %>
+                            </option>
+                            <% }) %> <% } %>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">افزودن کلاس</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% if (classes.length === 0) { %>
+    <h1>کلاسی یافت نشد</h1>
+    <% } else { %>
+        <div class="grid grid-2">
+        <% classes.forEach(cl => { %>
+            <div class="list-item">
+                <div class="list-tile">
+                    <h3><%= cl.cl.name %></h3>
+                    <h3><%= cl.teacher.name %></h3>
+                    <a href="/admins/manage-classes/<%= cl.cl._id %>" class="btn btn-secondary">ویرایش</a>
+                    <form action="/admins/manage-classes/remove-class" class="submitModal" method="POST">
+                        <input type="hidden" name="classId" value="<%= cl.cl._id %>">
+                        <button class="btn btn-primary" type="submit">حذف کلاس</button>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<div class="modal-container">
+    <div class="modal">
+        <div class="modal-head">
+            <h2>آیا کلاس<span>  </span>حذف شود؟</h2>
+        </div>
+        <div class="modal-options">
+            <button class="btn" id="cancelModal">خیر</button>
+            <button class="btn btn-primary" id="acceptModal">بله</button>
+        </div>
+    </div>
+</div>
+<%- include('../includes/bottom.ejs') %>

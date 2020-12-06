@@ -1,0 +1,24 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+<div class="container">
+    <h2>ویرایش دانش آموزان کلاس <%= cl.cl.name%> <%= cl.teacher.name%></h2>
+    <form
+        action="/admins/manage-classes/<%= cl.cl._id%>/edit-students"
+        method="POST"
+    >
+        <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
+        <ol class="mt-2 grid grid-6">
+            <% allStudents.forEach(student => { %>
+            <li>
+                <div class="checkbox-container">
+                    <label for="student" class="ml-1"><%= student.name%></label>
+                    <input type="checkbox" name="student" value="<%= student._id
+                    %>" <%= cl.cl.students.includes(student._id) ? "checked" :
+                    "" %>
+                </div>
+            </li>
+            <% }) %>
+        </ol>
+    </form>
+</div>
+
+<%- include('../includes/bottom.ejs') %>

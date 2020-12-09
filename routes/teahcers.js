@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/login', teachersController.getLogin);
 router.get('/register', teachersController.getRegister);
 router.get('/dashboard', requireTeacher, teachersController.getDashboard);
+router.get('/question-pools', requireTeacher, teachersController.getQuestionPool);
 
 router.post('/register', teachersController.postRegister);
 router.post('/login', teachersController.postLogin);

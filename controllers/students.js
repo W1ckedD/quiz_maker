@@ -2,6 +2,7 @@ const Student = require('../models/Student');
 const bcrypt = require('bcrypt');
 const messages = require('../utils/messages');
 
+
 exports.getLogin = (req, res) => {
     return res.render('students/login.ejs', { path: '/login' });
 };
@@ -31,7 +32,7 @@ exports.postRegister = async (req, res) => {
         req.session.student = student;
         return res.redirect('/students/dashboard');
     } catch (err) {
-        if (err.code === 11000) {
+        if (err.original.errno === 1062) {
             req.flash('error', messages.error409);
             return res.redirect('/students/register');
         }
@@ -44,7 +45,7 @@ exports.postRegister = async (req, res) => {
 exports.postLogin = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const student = await Student.findOne({ username });
+        const student = await Student.findOne({ where: { username } });
         if (!student) {
             req.flash('error', messages.error422);
             return res.redirect('/students/login');

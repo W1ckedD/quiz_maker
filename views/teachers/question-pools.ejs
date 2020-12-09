@@ -1,0 +1,15 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+<div class="container">
+    <h1>بانک سوالات</h1>
+    <% if (pools.length === 0) { %>
+        <h2>بانک سوالی یافت نشد</h2>
+    <% } else { %>
+        <ul>
+            <% pools.forEach(pool => { %>
+                pool.name
+            <% }) %>
+        </ul>
+    <% } %>
+
+</div>
+<%- include('../includes/bottom.ejs') %>

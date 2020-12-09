@@ -1,30 +1,34 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 
-const teacherSchema = new mongoose.Schema({
+const { sequelize } = require('../config/db');
+
+module.exports = sequelize.define('Teacher', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     username: {
-        type: String,
-        required: true,
+        type: DataTypes.STRING,
+        allowNull: false,
         unique: true,
     },
     password: {
-        type: String,
-        required: true,
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-    name: {
-        type: String,
-        required: true,
+    img_url: {
+        type: DataTypes.STRING,
+        defaultValue: '/img/profile.png',
     },
-    imgUrl: {
-        type: String,
-        default: '/img/profile.png',
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    quizes: [mongoose.Types.ObjectId],
-    classes: [mongoose.Types.ObjectId],
-    qeustionPools: [mongoose.Types.ObjectId]
 });
 
-module.exports = mongoose.model('Teacher', teacherSchema);

@@ -5,7 +5,7 @@ dotenv.config({ path: './config/config.env' });
 const session = require('express-session');
 const MongoDBStore = require('connect-mongo')(session);
 const flash = require('express-flash');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 connectDB();
 
 const app = express();

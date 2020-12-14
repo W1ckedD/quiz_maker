@@ -5,6 +5,7 @@ dotenv.config({ path: './config/config.env' });
 const session = require('express-session');
 const MongoDBStore = require('connect-mongo')(session);
 const flash = require('express-flash');
+const csrf = require('csurf');
 const { connectDB } = require('./config/db');
 connectDB();
 
@@ -32,6 +33,8 @@ app.use(
     })
 );
 
+app.use(csrf());
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -39,6 +42,7 @@ app.use((req, res, next) => {
     res.locals.admin = req.session.admin;
     res.locals.teacher = req.session.teacher;
     res.locals.student = req.session.student;
+    res.locals.csrfToken = req.csrfToken();
     // res.locals.messages = req.session.flash;
     next();
 });

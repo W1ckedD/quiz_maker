@@ -1,9 +1,13 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 <div class="container">
+    <% if (students.length === 0) { %>
+        <h2>دانش‌ آموزی یافت نشد.</h2>
+    <% } else { %>
     <ul>
         <% students.forEach(student => { %>
         <li><%= student.name%></li>
         <% }) %>
     </ul>
+    <% } %>
 </div>
 <%- include('../includes/bottom.ejs') %>

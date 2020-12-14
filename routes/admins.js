@@ -13,11 +13,11 @@ router.post('/login', adminsController.postLogin);
 router.post('/register', adminsController.postRegister);
 
 // Classes
-// router.get(
-//     '/manage-students',
-//     requireAdmin,
-//     adminsController.getManageStudents
-// );
+router.get(
+    '/manage-students',
+    requireAdmin,
+    adminsController.getManageStudents
+);
 // router.get(
 //     '/manage-classes/:id/edit-students',
 //     requireAdmin,

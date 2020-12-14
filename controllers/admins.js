@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const { Types } = require('mongoose');
 const Admin = require('../models/Admin');
 const Course = require('../models/Course');
 const Student = require('../models/Student');
@@ -22,7 +21,13 @@ exports.getDashboard = (req, res) => {
 
 exports.postRegister = async (req, res) => {
     try {
-        const { name, username, password, password2 } = req.body;
+        const {
+            first_name,
+            last_name,
+            username,
+            password,
+            password2,
+        } = req.body;
         if (password.length < 6) {
             req.flash('error', messages.passwordLength);
             return res.redirect('/admins/register');
@@ -33,7 +38,8 @@ exports.postRegister = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const admin = await Admin.create({
-            name,
+            first_name,
+            last_name,
             username,
             password: hashedPassword,
         });
@@ -54,15 +60,15 @@ exports.postRegister = async (req, res) => {
 exports.postLogin = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const admin = await Admin.findOne({ username });
+        const admin = await Admin.findOne({ where: { username } });
         if (!admin) {
             req.flash('error', messages.error422);
-            return res.redirect('/admin/login');
+            return res.redirect('/admins/login');
         }
         const match = await bcrypt.compare(password, admin.password);
         if (!match) {
             req.flash('error', messages.error422);
-            return res.redirect('/admin/login');
+            return res.redirect('/admins/login');
         }
         req.session.isLoggedIn = true;
         req.session.admin = admin;
@@ -70,14 +76,14 @@ exports.postLogin = async (req, res) => {
     } catch (err) {
         console.log(err);
         req.flash('error', messages.error500);
-        return res.redirect('/admins/register');
+        return res.redirect('/admins/login');
     }
 };
 
 // Manage Students
 exports.getManageStudents = async (req, res) => {
     try {
-        const students = await Student.find();
+        const students = await Student.findAll();
         return res.render('admins/manage-students.ejs', {
             path: '/admins/manage-students',
             students,
@@ -88,4 +94,3 @@ exports.getManageStudents = async (req, res) => {
         return res.redirect('/admins/dashboard');
     }
 };
-

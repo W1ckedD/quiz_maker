@@ -19,7 +19,13 @@ exports.getDashboard = (req, res) => {
 
 exports.postRegister = async (req, res) => {
     try {
-        const { name, username, password, password2 } = req.body;
+        const {
+            first_name,
+            last_name,
+            username,
+            password,
+            password2,
+        } = req.body;
         if (password.length < 6) {
             req.flash('error', messages.passwordLength);
             return res.redirect('/teachers/register');
@@ -30,7 +36,8 @@ exports.postRegister = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const teacher = await Teacher.create({
-            name,
+            first_name,
+            last_name,
             username,
             password: hashedPassword,
         });
@@ -51,7 +58,7 @@ exports.postRegister = async (req, res) => {
 exports.postLogin = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const teacher = await Teacher.findOne({ username });
+        const teacher = await Teacher.findOne({ where: { username } });
         if (!teacher) {
             req.flash('error', messages.error422);
             return res.redirect('/teachers/login');

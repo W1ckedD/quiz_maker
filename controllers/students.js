@@ -17,7 +17,7 @@ exports.getDashboard = (req, res) => {
 
 exports.postRegister = async (req, res) => {
     try {
-        const { name, username, password, password2 } = req.body;
+        const { first_name, last_name, username, password, password2 } = req.body;
         if (password.length < 6) {
             req.flash('error', messages.passwordLength);
             return res.redirect('/students/register');
@@ -27,7 +27,7 @@ exports.postRegister = async (req, res) => {
             return res.redirect('/students/register');
         }
         const hashedPassword = await bcrypt.hash(password, 12);
-        const student = await Student.create({ name, username, password: hashedPassword });
+        const student = await Student.create({ first_name, last_name, username, password: hashedPassword });
         req.session.isLoggedIn = true;
         req.session.student = student;
         return res.redirect('/students/dashboard');

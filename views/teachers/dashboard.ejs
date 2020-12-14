@@ -1,7 +1,7 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 
 <div class="container">
-    <h1><%= teacher.name %> خوش آمدید</h1>
+    <h1><%= teacher.first_name %> <%= teacher.last_name %> خوش آمدید</h1>
     <div class="grid grid-3">
         <a href="/teachers/question-pools" class="btn btn-primary">بانک سوالات</a>
         <a href="/teachers/manage-students" class="btn btn-primary">مدیریت دانش آموزان</a>

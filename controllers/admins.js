@@ -7,16 +7,16 @@ const messages = require('../utils/messages');
 
 // Auth
 exports.getLogin = (req, res) => {
-    return res.render('admins/login.ejs', { path: '/login' });
+    return res.render('admins/login.ejs', { path: '/admins/login' });
 };
 
 exports.getRegister = (req, res) => {
     req.flash('msg', 'Welcome');
-    return res.render('admins/register.ejs', { path: '/register' });
+    return res.render('admins/register.ejs', { path: '/admins/register' });
 };
 
 exports.getDashboard = (req, res) => {
-    return res.render('admins/dashboard.ejs', { path: '/dashboard' });
+    return res.render('admins/dashboard.ejs', { path: '/admins/dashboard' });
 };
 
 exports.postRegister = async (req, res) => {
@@ -77,6 +77,66 @@ exports.postLogin = async (req, res) => {
         console.log(err);
         req.flash('error', messages.error500);
         return res.redirect('/admins/login');
+    }
+};
+
+// Manage Courses
+exports.getManageCourses = async (req, res) => {
+    try {
+        const teachers = await Teacher.findAll({
+            order: [['last_name', 'ASC']],
+        });
+        const courses = await Course.findAll();
+        const data = await Promise.all(
+            courses.map(async (course) => ({
+                id: course.id,
+                name: course.name,
+                teacher: await Teacher.findByPk(course.TeacherId),
+            }))
+        );
+        return res.render('admins/manage-courses.ejs', {
+            path: '/admins/manage-courses',
+            teachers,
+            courses: data,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/dashboard');
+    }
+};
+
+exports.postAddCourse = async (req, res) => {
+    try {
+        const { name, teacherId } = req.body;
+        const teacher = await Teacher.findByPk(teacherId);
+        const course = await Course.create({ name });
+        teacher.addCourse(course);
+        return res.redirect('/admins/manage-courses');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/manage-courses');
+    }
+};
+
+exports.getEditCourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await Course.findByPk(parseInt(id));
+        const data = await Promise.resolve({
+            name: course.name,
+            teacher: await Teacher.findByPk(course.TeacherId),
+            students: await course.getStudents(),
+        });
+        return res.render('admins/edit-course.ejs', {
+            path: '/admins/manage-courses',
+            course: data,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/manage-courses');
     }
 };
 

@@ -23,19 +23,19 @@ router.get(
 //     requireAdmin,
 //     adminsController.getEditClassStudents
 // );
-// router.get('/manage-classes/:id', requireAdmin, adminsController.getEditClass);
-// router.get('/manage-classes', requireAdmin, adminsController.getManageClasses);
+router.get('/manage-courses/:id', requireAdmin, adminsController.getEditCourse);
+router.get('/manage-courses', requireAdmin, adminsController.getManageCourses);
 
 // router.post(
 //     '/manage-classes/:id/edit-students',
 //     requireAdmin,
 //     adminsController.postEditClassStudents
 // );
-// router.post(
-//     '/manage-classes/add-class',
-//     requireAdmin,
-//     adminsController.postAddClass
-// );
+router.post(
+    '/manage-courses/add-course',
+    requireAdmin,
+    adminsController.postAddCourse
+);
 // router.post(
 //     '/manage-classes/remove-class',
 //     requireAdmin,

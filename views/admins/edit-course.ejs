@@ -1,22 +1,25 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 
 <div class="container">
-    <h2 class="mv-2">نام درس: <%= cl.cl.name %></h2>
-    <h2 class="mv-1">نام استاد: <%= cl.teacher.name %></h2>
+    <h2 class="mv-2">نام درس: <%= course.name %></h2>
+    <h2 class="mv-1">
+        نام استاد: <%= course.teacher.first_name %> <%=
+        course.teacher.last_name %>
+    </h2>
     <div class="mb-3" style="display: flex">
         <a
-            href="/admins/manage-classes/<%= cl.cl._id%>/edit-students"
+            href="/admins/manage-courses/<%= course.id%>/edit-students"
             class="btn btn-primary"
             >ویرایش دانش آموزان کلاس</a
         >
     </div>
     <h3 class="mv-4">لیست دانش آموزان</h3>
-    <% if (cl.students.length === 0 ) {%>
+    <% if (course.students.length === 0 ) {%>
     <h3 class="mv-1">دانش آموزی در کلاس یافت نشد</h3>
     <% } else { %>
     <ol class="grid grid-6">
-        <% cl.students.forEach(student => { %>
-        <li><%= student.name %></li>
+        <% course.students.forEach(student => { %>
+        <li><%= student.first_name %> <%= student.first_name %></li>
         <% }) %>
     </ol>
     <% } %>

@@ -2,28 +2,23 @@ const { DataTypes } = require('sequelize');
 
 const { sequelize } = require('../config/db');
 
-module.exports = sequelize.define('Quiz', {
+module.exports = sequelize.define('Answer', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    title: {
+    value: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
-    start_time: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    duration: {
+    question_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    end_time: {
-        type: DataTypes.DATE,
-        allowNull: false,
+    student_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
 });

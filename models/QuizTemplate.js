@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 const { sequelize } = require('../config/db');
 
-module.exports = sequelize.define('Quiz', {
+module.exports = sequelize.define('QuizTemplate', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

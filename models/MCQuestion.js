@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 const { sequelize } = require('../config/db');
 
-module.exports = sequelize.define('Quiz', {
+module.exports = sequelize.define('MCQuestion', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -14,16 +14,8 @@ module.exports = sequelize.define('Quiz', {
         allowNull: false,
         unique: true
     },
-    start_time: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    duration: {
+    answer: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
-    end_time: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
+    }
 });

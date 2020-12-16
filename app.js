@@ -18,8 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const store = new MongoDBStore({
-    url: process.env.MONGODB_CONN_STR,
-    collection: 'sessions',
+    url: process.env.MONGODB_CONN_STR
 });
 app.use(
     session({

@@ -1,10 +1,35 @@
 <nav>
+    <% if(admin) { %>
     <ul>
-        <li class="<%= path === '/' ? 'active' : ''%>">
-            <a href="/">صفحه اصلی</a>
+        <li class="<%= path === '/admins/dashboard' ? 'active' : ''%>">
+            <a href="/admins/dashboard">داشبورد</a>
         </li>
-        <li><a href="/about">درباره ما</a></li>
+        <li class="<%= path === '/admins/manage-courses' ? 'active' : ''%>">
+            <a href="/admins/manage-courses">مدیریت کلاس ها</a>
+        </li>
+        <li class="<%= path === '/admins/manage-teachers' ? 'active' : ''%>">
+            <a href="/admins/manage-teachers">مدیریت معلمین</a>
+        </li>
+        <li class="<%= path === '/admins/manage-students' ? 'active' : ''%>">
+            <a href="/admins/manage-students">مدیریت دانش آموزان</a>
+        </li>
+        <li class="<%= path === '/admins/manage-quizzes' ? 'active' : ''%>">
+            <a href="/admins/manage-quizzes">مدیریت آزمون ها</a>
+        </li>
     </ul>
+    <% } else if (teacher) { %>
+        <ul>
+            <li class="<%= path === '/' ? 'active' : ''%>">
+                <a href="/">صفحه اصلی</a>
+            </li>
+            <li><a href="/about">درباره ما</a></li>
+        </ul>
+    <% } else if (student) { %>
+
+    <% } else  { %>
+
+    <% } %>
+
     <ul>
         <% if(isLoggedIn) { %>
         <li>

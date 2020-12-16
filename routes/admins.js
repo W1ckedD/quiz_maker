@@ -18,11 +18,11 @@ router.get(
     requireAdmin,
     adminsController.getManageStudents
 );
-// router.get(
-//     '/manage-classes/:id/edit-students',
-//     requireAdmin,
-//     adminsController.getEditClassStudents
-// );
+router.get(
+    '/manage-courses/:id/edit-students',
+    requireAdmin,
+    adminsController.getEditCourseStudents
+);
 router.get('/manage-courses/:id', requireAdmin, adminsController.getEditCourse);
 router.get('/manage-courses', requireAdmin, adminsController.getManageCourses);
 

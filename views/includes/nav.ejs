@@ -17,24 +17,20 @@
             <a href="/admins/manage-quizzes">مدیریت آزمون ها</a>
         </li>
     </ul>
-    <% } else if (teacher) { %>
-        <ul>
-            <li class="<%= path === '/' ? 'active' : ''%>">
-                <a href="/">صفحه اصلی</a>
-            </li>
-            <li><a href="/about">درباره ما</a></li>
-        </ul>
-    <% } else if (student) { %>
-
-    <% } else  { %>
-
+    <% } else if (teacher) { %> <% } else if (student) { %> <% } else { %>
+    <ul>
+        <li class="<%= path === '/' ? 'active' : ''%>">
+            <a href="/">صفحه اصلی</a>
+        </li>
+        <li><a href="/about">درباره ما</a></li>
+    </ul>
     <% } %>
 
     <ul>
         <% if(isLoggedIn) { %>
         <li>
             <form action="/logout" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                 <button type="submit">خروج</button>
             </form>
         </li>

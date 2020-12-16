@@ -1,8 +1,11 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 <div class="container">
-    <h2>ویرایش دانش آموزان کلاس <%= cl.cl.name%> <%= cl.teacher.name%></h2>
+    <h2>
+        ویرایش دانش آموزان کلاس <%= course.name%> <%=
+        course.teacher.first_name%> <%= course.teacher.last_name%>
+    </h2>
     <form
-        action="/admins/manage-classes/<%= cl.cl._id%>/edit-students"
+        action="/admins/manage-classes/<%= course.id%>/edit-students"
         method="POST"
     >
         <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
@@ -10,9 +13,9 @@
             <% allStudents.forEach(student => { %>
             <li>
                 <div class="checkbox-container">
-                    <label for="student" class="ml-1"><%= student.name%></label>
-                    <input type="checkbox" name="student" value="<%= student._id
-                    %>" <%= cl.cl.students.includes(student._id) ? "checked" :
+                    <label for="student" class="ml-1"><%= student.first_name%> <%= student.last_name%></label>
+                    <input type="checkbox" name="student" value="<%= student.id
+                    %>" <%= course.students.includes(student.id) ? "checked" :
                     "" %>
                 </div>
             </li>

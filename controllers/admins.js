@@ -91,7 +91,7 @@ exports.getManageCourses = async (req, res) => {
             courses.map(async (course) => ({
                 id: course.id,
                 name: course.name,
-                teacher: await Teacher.findByPk(course.TeacherId),
+                teacher: await course.getTeacher(),
             }))
         );
         return res.render('admins/manage-courses.ejs', {
@@ -123,8 +123,9 @@ exports.postAddCourse = async (req, res) => {
 exports.getEditCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        const course = await Course.findByPk(parseInt(id));
+        const course = await Course.findByPk(id);
         const data = await Promise.resolve({
+            id: course.id,
             name: course.name,
             teacher: await Teacher.findByPk(course.TeacherId),
             students: await course.getStudents(),
@@ -132,6 +133,28 @@ exports.getEditCourse = async (req, res) => {
         return res.render('admins/edit-course.ejs', {
             path: '/admins/manage-courses',
             course: data,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/manage-courses');
+    }
+};
+
+exports.getEditCourseStudents = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const allStudents = await Student.findAll();
+        const course = await Course.findByPk(id);
+        const data = await Promise.resolve({
+            name: course.name,
+            students: await course.getStudents(),
+            teacher: await course.getTeacher(),
+        });
+        return res.render('admins/edit-course-students.ejs', {
+            path: '/admins/manage-course',
+            course: data,
+            allStudents
         });
     } catch (err) {
         console.log(err);

@@ -26,4 +26,8 @@ module.exports = sequelize.define('Quiz', {
         type: DataTypes.DATE,
         allowNull: false,
     },
+    score: {
+        type: DataTypes.FLOAT,
+        allowNull: true
+    }
 });

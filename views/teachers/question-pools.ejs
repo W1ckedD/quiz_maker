@@ -1,15 +1,79 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 <div class="container">
+    <div class="center">
+        <div class="card">
+            <div class="card-head">
+                <h2>افزودن بانک سوالات جدید</h2>
+            </div>
+            <div class="card-body">
+                <form
+                    action="/teachers/question-pools/add-question-pool"
+                    method="POST"
+                >
+                    <div class="form-group">
+                        <label for="name">نام</label>
+                        <input type="text" name="name" class="form-control" />
+                    </div>
+
+                    <input
+                        type="hidden"
+                        name="_csrf"
+                        value="<%= csrfToken %>"
+                    />
+                    <button type="submit" class="btn btn-primary btn-block">
+                        افزودن بانک سوالات
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <h1>بانک سوالات</h1>
     <% if (pools.length === 0) { %>
-        <h2>بانک سوالی یافت نشد</h2>
+    <h2>بانک سوالی یافت نشد</h2>
     <% } else { %>
-        <ul>
-            <% pools.forEach(pool => { %>
-                pool.name
-            <% }) %>
-        </ul>
+    <div class="grid grid-2">
+        <% pools.forEach(pool => { %>
+        <div class="list-item">
+            <div class="list-tile">
+                <div>
+                    <h3 class="mb-1"><%= pool.name %></h3>
+                </div>
+                <a
+                    href="/teachers/question-pools/<%= pool.id %>"
+                    class="btn btn-secondary"
+                    >مشاهده سوالات</a
+                >
+                <form
+                    action="/teachers/question-pools/delete-question-pool"
+                    class="submitModal"
+                    method="POST"
+                >
+                    <input type="hidden" name="poolId" value="<%= pool.id %>" />
+                    <input
+                        type="hidden"
+                        name="_csrf"
+                        value="<%= csrfToken %>"
+                    />
+                    <button class="btn btn-primary" type="submit">
+                        حذف بانک سوالات
+                    </button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+    </div>
     <% } %>
-
+</div>
+<div class="modal-container">
+    <div class="modal">
+        <div class="modal-head">
+            <h2>آیا بانک سوالات<span> </span>حذف شود؟</h2>
+        </div>
+        <div class="modal-options">
+            <button class="btn" id="cancelModal">خیر</button>
+            <button class="btn btn-primary" id="acceptModal">بله</button>
+        </div>
+    </div>
 </div>
 <%- include('../includes/bottom.ejs') %>

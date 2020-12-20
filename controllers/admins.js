@@ -111,7 +111,7 @@ exports.postAddCourse = async (req, res) => {
         const { name, teacherId } = req.body;
         const teacher = await Teacher.findByPk(teacherId);
         const course = await Course.create({ name });
-        teacher.addCourse(course);
+        await teacher.addCourse(course);
         return res.redirect('/admins/manage-courses');
     } catch (err) {
         console.log(err);
@@ -128,7 +128,9 @@ exports.getEditCourse = async (req, res) => {
             id: course.id,
             name: course.name,
             teacher: await Teacher.findByPk(course.TeacherId),
-            students: await course.getStudents(),
+            students: await course.getStudents({
+                order: [['last_name', 'ASC']],
+            }),
         });
         return res.render('admins/edit-course.ejs', {
             path: '/admins/manage-courses',
@@ -144,9 +146,12 @@ exports.getEditCourse = async (req, res) => {
 exports.getEditCourseStudents = async (req, res) => {
     try {
         const { id } = req.params;
-        const allStudents = await Student.findAll();
+        const allStudents = await Student.findAll({
+            order: [['last_name', 'ASC']],
+        });
         const course = await Course.findByPk(id);
         const data = await Promise.resolve({
+            id: course.id,
             name: course.name,
             students: await course.getStudents(),
             teacher: await course.getTeacher(),
@@ -154,8 +159,39 @@ exports.getEditCourseStudents = async (req, res) => {
         return res.render('admins/edit-course-students.ejs', {
             path: '/admins/manage-course',
             course: data,
-            allStudents
+            allStudents,
         });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/manage-courses');
+    }
+};
+
+exports.postEditCourseStudents = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await Course.findByPk(id);
+        const { student } = req.body;
+        const studentIds = Array.isArray(student) ? student : [student];
+        const students = await Promise.all(
+            studentIds.map(async (sId) => await Student.findByPk(sId))
+        );
+        await course.setStudents(students);
+        return res.redirect('/admins/manage-courses/' + id);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/admins/manage-courses');
+    }
+};
+
+exports.postDeleteCourse = async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        const course = await Course.findByPk(courseId);
+        await course.destroy();
+        return res.redirect('/admins/manage-courses');
     } catch (err) {
         console.log(err);
         req.flash('error', messages.error500);

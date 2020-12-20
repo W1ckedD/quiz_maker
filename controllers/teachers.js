@@ -80,9 +80,8 @@ exports.postLogin = async (req, res) => {
 
 exports.getQuestionPool = async (req, res) => {
     try {
-        const pools = await QuestionPool.find({
-            teacher: req.session.teacher._id,
-        });
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        const pools = await teacher.getQuestionPools();
         return res.render('teachers/question-pools.ejs', {
             path: '/teachers/question-pools',
             pools,
@@ -90,6 +89,33 @@ exports.getQuestionPool = async (req, res) => {
     } catch (err) {
         console.log(err);
         req.flash('error', messages.error500);
-        return res.redirect('/teachers/register');
+        return res.redirect('/teachers/dashboard');
+    }
+};
+
+exports.postAddQuestionPool = async (req, res) => {
+    try {
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        const { name } = req.body;
+        const questionPool = await QuestionPool.create({ name });
+        await teacher.addQuestionPool(questionPool);
+        return res.redirect('/teachers/question-pools');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/question-pools');
+    }
+};
+
+exports.postDeleteQuestionPool = async (req, res) => {
+    try {
+        const { poolId } = req.body;
+        const pool = await QuestionPool.findByPk(poolId);
+        await pool.destroy();
+        return res.redirect('/teachers/question-pools');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/question-pools');
     }
 };

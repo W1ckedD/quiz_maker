@@ -5,7 +5,7 @@
         course.teacher.first_name%> <%= course.teacher.last_name%>
     </h2>
     <form
-        action="/admins/manage-classes/<%= course.id%>/edit-students"
+        action="/admins/manage-courses/<%= course.id%>/edit-students"
         method="POST"
     >
         <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
@@ -15,12 +15,13 @@
                 <div class="checkbox-container">
                     <label for="student" class="ml-1"><%= student.first_name%> <%= student.last_name%></label>
                     <input type="checkbox" name="student" value="<%= student.id
-                    %>" <%= course.students.includes(student.id) ? "checked" :
+                    %>" <%= course.students.map(std => std.id).includes(parseInt(student.id)) ? "checked" :
                     "" %>
                 </div>
             </li>
             <% }) %>
         </ol>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     </form>
 </div>
 

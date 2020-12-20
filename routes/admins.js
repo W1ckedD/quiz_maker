@@ -26,20 +26,20 @@ router.get(
 router.get('/manage-courses/:id', requireAdmin, adminsController.getEditCourse);
 router.get('/manage-courses', requireAdmin, adminsController.getManageCourses);
 
-// router.post(
-//     '/manage-classes/:id/edit-students',
-//     requireAdmin,
-//     adminsController.postEditClassStudents
-// );
+router.post(
+    '/manage-courses/:id/edit-students',
+    requireAdmin,
+    adminsController.postEditCourseStudents
+);
 router.post(
     '/manage-courses/add-course',
     requireAdmin,
     adminsController.postAddCourse
 );
-// router.post(
-//     '/manage-classes/remove-class',
-//     requireAdmin,
-//     adminsController.postDeleteClass
-// );
+router.post(
+    '/manage-courses/delete-course',
+    requireAdmin,
+    adminsController.postDeleteCourse
+);
 
 module.exports = router;

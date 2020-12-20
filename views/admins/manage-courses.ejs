@@ -58,14 +58,19 @@
                     >ویرایش</a
                 >
                 <form
-                    action="/admins/manage-courses/remove-class"
+                    action="/admins/manage-courses/delete-course"
                     class="submitModal"
                     method="POST"
                 >
                     <input
                         type="hidden"
-                        name="classId"
+                        name="courseId"
                         value="<%= course.id %>"
+                    />
+                    <input
+                        type="hidden"
+                        name="_csrf"
+                        value="<%= csrfToken %>"
                     />
                     <button class="btn btn-primary" type="submit">
                         حذف کلاس

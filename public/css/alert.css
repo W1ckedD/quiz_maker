@@ -1,6 +1,7 @@
 :root {
     --primary-color: #fc5364;
     --secondary-color: #8a9596;
+    --success-color: #3bbf70;
 }
 
 .alert  {
@@ -31,6 +32,10 @@
     color: white;
 }
 
+.alert-success {
+    background-color: var(--success-color);
+    color: #333;
+}
 
 .alert.show {
     opacity: 1;

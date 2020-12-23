@@ -17,7 +17,19 @@
             <a href="/admins/manage-quizzes">مدیریت آزمون ها</a>
         </li>
     </ul>
-    <% } else if (teacher) { %> <% } else if (student) { %> <% } else { %>
+    <% } else if (teacher) { %>
+    <ul>
+        <li class="<%= path === '/teachers/dashboard' ? 'active' : ''%>">
+            <a href="/teachers/dashboard">داشبورد</a>
+        </li>
+        <li class="<%= path === '/teachers/quizzes' ? 'active' : ''%>">
+            <a href="/teachers/quizzes">آزمون ها</a>
+        </li>
+        <li class="<%= path === '/teachers/question-pools' ? 'active' : ''%>">
+            <a href="/teachers/question-pools">بانک های سوال</a>
+        </li>
+    </ul>
+    <% } else if (student) { %> <% } else { %>
     <ul>
         <li class="<%= path === '/' ? 'active' : ''%>">
             <a href="/">صفحه اصلی</a>

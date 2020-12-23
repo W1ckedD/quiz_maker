@@ -1,0 +1,15 @@
+<% if (messages.error) { %>
+<div class="alert alert-danger show" id="alert">
+    <button id="dismiss">
+        <i class="fa fa-times"></i>
+    </button>
+    <h3><%= messages.error %></h3>
+</div>
+<% } else if (messages.success) { %>
+<div class="alert alert-success show" id="alert">
+    <button id="dismiss">
+        <i class="fa fa-times"></i>
+    </button>
+    <h3><%= messages.success %></h3>
+</div>
+<% } %>

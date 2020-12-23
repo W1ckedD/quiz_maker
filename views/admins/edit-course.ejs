@@ -1,6 +1,7 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 
 <div class="container">
+    <%- include('../includes/flash.ejs') %>
     <h2 class="mv-2">نام درس: <%= course.name %></h2>
     <h2 class="mv-1">
         نام استاد: <%= course.teacher.first_name %> <%=

@@ -6,3 +6,8 @@ exports.error500 = 'در برقراری ارتباط با سرور مشکلی ب
 
 exports.passwordMatch = 'رمز عبور با تکرار آن مطابقت ندارد';
 exports.passwordLength = 'رمز عبور می بایست حداقل شامل ۶ کاراکتر باشد';
+exports.passwordInvalid = 'رمز عبور فعلی شما نامعتبر است';
+
+
+// Successes
+exports.passwordChanged = 'رمز عبور شما با موفقیت تغییر یافت';

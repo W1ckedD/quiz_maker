@@ -1,6 +1,18 @@
 <%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
 
-<div class="container">
+<div class="side-menu">
+    
+    <div class="img">
+        <img src="<%= teacher.img_url%>" alt="" class="img">
+    </div>
+    <ul>
+        <li>
+            <a href="/teachers/profile" class="btn btn-secondary">ویرایش پروفایل</a>
+        </li>
+    </ul>
+</div>
+<div class="container" style="transform: translateX(-100px);">
+    <%- include('../includes/flash.ejs') %>
     <h1><%= teacher.first_name %> <%= teacher.last_name %> خوش آمدید</h1>
     <div class="grid grid-3">
         <a href="/teachers/question-pools" class="btn btn-primary">بانک سوالات</a>

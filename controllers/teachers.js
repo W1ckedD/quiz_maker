@@ -14,7 +14,7 @@ exports.getRegister = (req, res) => {
 };
 
 exports.getDashboard = (req, res) => {
-    return res.render('teachers/dashboard.ejs', { path: '/dashboard' });
+    return res.render('teachers/dashboard.ejs', { path: '/teachers/dashboard' });
 };
 
 exports.postRegister = async (req, res) => {
@@ -77,6 +77,88 @@ exports.postLogin = async (req, res) => {
         return res.redirect('/teachers/register');
     }
 };
+
+// Profile
+
+exports.getEditProfile = async (req, res) => {
+    try {
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        return res.render('teachers/edit-profile.ejs', {
+            path: '/teachers/dashboard',
+            teacher,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/dashboard');
+    }
+};
+
+exports.postUpdateProfileImg = async (req, res) => {
+    try {
+        const file = req.file;
+        const arr = file.path.split('uploads');
+        const path = '/uploads' + arr[arr.length - 1];
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        teacher.img_url = path;
+        await teacher.save();
+        return res.redirect('/teachers/profile');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/profile');
+    }
+};
+
+exports.postUpdateProfile = async (req, res) => {
+    try {
+        const { first_name, last_name } = req.body;
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        teacher.first_name = first_name;
+        teacher.last_name = last_name;
+        await teacher.save();
+        return res.redirect('/teachers/profile');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/profile');
+    }
+};
+
+exports.postUpdatePassword = async (req, res) => {
+    try {
+        const { old_password, new_password, new_password2 } = req.body;
+        if (old_password.length < 6) {
+            req.flash('error', messages.passwordInvalid);
+            return res.redirect('/teachers/profile');
+        }
+        if (new_password.length < 6) {
+            req.flash('error', messages.passwordLength);
+            return res.redirect('/teachers/profile');
+        }
+        if (new_password != new_password2) {
+            req.flash('error', messages.passwordMatch);
+            return res.redirect('/teachers/profile');
+        }
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        const match = await bcrypt.compare(old_password, teacher.password);
+        if (!match) {
+            req.flash('error', messages.passwordInvalid);
+            return res.redirect('/teachers/profile');
+        }
+        const hashedPassword = await bcrypt.hash(new_password, 12);
+        teacher.password = hashedPassword;
+        await teacher.save();
+        req.flash('success', messages.passwordChanged);
+        return res.redirect('/teachers/profile');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/profile');
+    }
+};
+
+// Question pools
 
 exports.getQuestionPool = async (req, res) => {
     try {

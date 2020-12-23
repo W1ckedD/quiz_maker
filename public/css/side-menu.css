@@ -1,0 +1,22 @@
+:root {
+    --primary-color: #fc5364;
+    --secondary-color: #8a9596;
+}
+
+.side-menu {
+    width: 200px;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    bottom: 0;
+    background-color: #eee;
+    padding: 0.5rem;
+    box-shadow: 0 0 10px #ccc;
+}
+
+
+.img {
+    max-width: 180px;
+    margin: auto;
+    border-radius: 10px;
+}

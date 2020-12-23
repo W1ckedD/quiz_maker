@@ -1,0 +1,77 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+
+<div class="container">
+    <%- include('../includes/flash.ejs') %>
+    <h1 class="mb-1">ویرایش پروفایل</h1>
+    <h2 class="mb-1"><%= teacher.first_name %> <%= teacher.last_name %></h2>
+    <div class="d-flex">
+        <div class="m-1">
+            <img
+                src="<%= teacher.img_url%>"
+                alt=""
+                style="width: 180px; border-radius: 10px"
+            />
+            <form
+                action="/teachers/profile/update-profile-img/?_csrf=<%=csrfToken%>"
+                enctype="multipart/form-data"
+                method="POST"
+            >
+                <input type="file" required name="img" />
+
+                <button type="submit" class="btn btn-primary">
+                    بروزرسانی تصویر
+                </button>
+            </form>
+        </div>
+        <div class="m-1">
+            <form action="/teachers/profile/update-profile" method="POST">
+                <div class="form-group">
+                    <label for="first_name">نام</label>
+                    <input type="text" name="first_name" class="form-control" value="<%= teacher.first_name%>" />
+                </div>
+                <div class="form-group">
+                    <label for="first_name">نام خانوادگی</label>
+                    <input type="text" name="last_name" class="form-control" value="<%= teacher.last_name%>"/>
+                </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <button type="submit" class="btn btn-primary">
+                    ثبت تغییرات
+                </button>
+            </form>
+        </div>
+        <div class="m-1">
+            <form action="/teachers/profile/update-password" method="POST">
+                <div class="form-group">
+                    <label for="old_password">رمز عبور فعلی</label>
+                    <input
+                        type="password"
+                        name="old_password"
+                        class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="old_password">رمز عبور جدید</label>
+                    <input
+                        type="password"
+                        name="new_password"
+                        class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="old_password">تکرار رمز عبور جدید </label>
+                    <input
+                        type="password"
+                        name="new_password2"
+                        class="form-control"
+                    />
+                </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <button type="submit" class="btn btn-primary">
+                   تغییر رمز
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/bottom.ejs') %>

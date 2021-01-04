@@ -2,19 +2,29 @@ const bcrypt = require('bcrypt');
 const Teacher = require('../models/Teacher');
 const QuestionPool = require('../models/QuestionPool');
 const messages = require('../utils/messages');
+const Question = require('../models/Question');
+const QuestionImage = require('../models/QuestionImage');
 
 // Auth
 
 exports.getLogin = (req, res) => {
+    if (req.session.teacher) {
+        return res.redirect('/teachers/dashboard');
+    }
     return res.render('teachers/login.ejs', { path: '/login' });
 };
 
 exports.getRegister = (req, res) => {
+    if (req.session.teacher) {
+        return res.redirect('/teachers/dashboard');
+    }
     return res.render('teachers/register.ejs', { path: '/register' });
 };
 
 exports.getDashboard = (req, res) => {
-    return res.render('teachers/dashboard.ejs', { path: '/teachers/dashboard' });
+    return res.render('teachers/dashboard.ejs', {
+        path: '/teachers/dashboard',
+    });
 };
 
 exports.postRegister = async (req, res) => {
@@ -201,3 +211,56 @@ exports.postDeleteQuestionPool = async (req, res) => {
         return res.redirect('/teachers/question-pools');
     }
 };
+
+exports.getQuestionPoolById = async (req, res) => {
+    try {
+        const teacher = await Teacher.findByPk(req.session.teacher.id);
+        const { id } = req.params;
+        const questionPools = await teacher.getQuestionPools();
+        const pool = questionPools.find((p) => p.id == id);
+        const tQuestions = await pool.getQuestions();
+        return res.render('teachers/question-pool.ejs', {
+            path: '/teachers/question-pools',
+            pool,
+            tQuestions,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/question-pools');
+    }
+};
+
+exports.getAddQuestion = async (req, res) => {
+    try {
+        const { id } = req.params;
+        return res.render('teachers/add-question.ejs', {
+            path: '/teachers/question-pools',
+            id,
+        });
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/question-pools');
+    }
+};
+
+exports.postAddTQuestion = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pool = await QuestionPool.findByPk(id);
+        const file = req.file;
+        const { title } = req.body;
+        const question = await Question.create({ title });
+        const arr = file.path.split('uploads');
+        const path = '/uploads' + arr[arr.length - 1];
+        const questionImg = await QuestionImage.create({ url: path });
+        await question.setQuestionImage(questionImg);
+        await pool.addQuestion(question);
+        return res.redirect('/teachers/question-pools/' + id)
+    } catch (err) {
+        console.log(err);
+        req.flash('error', messages.error500);
+        return res.redirect('/teachers/question-pools');
+    }
+}

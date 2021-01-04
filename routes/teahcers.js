@@ -7,7 +7,7 @@ const requireTeacher = require('../middlewares/requireTeacher');
 
 // multer config
 
-const storage = multer.diskStorage({
+const profileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         const teacher_id = req.session.teacher.id;
         cb(
@@ -31,7 +31,33 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage });
+const profileUpload = multer({ storage: profileStorage });
+
+const questionStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const teacher_id = req.session.teacher.id;
+        cb(
+            null,
+            path.join(__dirname, '../', 'uploads', 'teachers', 'questions')
+        );
+    },
+    filename: (req, file, cb) => {
+        const teacher_id = req.session.teacher.id;
+        const arr = file.originalname.split('.');
+        const extention = arr[arr.length - 1];
+        cb(
+            null,
+            'teacher=' +
+                teacher_id +
+                '*' +
+                new Date().toISOString() +
+                '.' +
+                extention
+        );
+    },
+})
+
+const questionUpload = multer({ storage: questionStorage });
 
 const router = express.Router();
 
@@ -47,6 +73,29 @@ router.post(
     requireTeacher,
     teachersController.postDeleteQuestionPool
 );
+
+router.post(
+    '/question-pools/:id/add-tQuestion',
+    requireTeacher,
+    questionUpload.single('question_img'),
+    teachersController.postAddTQuestion
+);
+
+router.get(
+    '/question-pools/:id/add-question',
+    requireTeacher,
+    teachersController.getAddQuestion
+);
+router.get(
+    '/question-pools/:id',
+    requireTeacher,
+    teachersController.getQuestionPoolById
+);
+router.get(
+    '/qustion-pools/:id/add-question',
+    requireTeacher,
+    teachersController.getAddQuestion
+);
 router.get(
     '/question-pools',
     requireTeacher,
@@ -58,7 +107,7 @@ router.get('/profile', requireTeacher, teachersController.getEditProfile);
 router.post(
     '/profile/update-profile-img',
     requireTeacher,
-    upload.single('img'),
+    profileUpload.single('img'),
     teachersController.postUpdateProfileImg
 );
 router.post(

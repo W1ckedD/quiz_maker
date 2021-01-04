@@ -1,0 +1,11 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+<div class="container">
+    <%- include('../includes/flash.ejs') %>
+    <h1>بانک سوالات <%= pool.name %></h1>
+    <% tQuestions.forEach(question => { %>
+        <%= question.title%>
+    <% }) %>
+    <a href="/teachers/question-pools/<%= pool.id %>/add-question" class="btn btn-primary">افزودن سوال</a>
+</div>
+
+<%- include('../includes/bottom.ejs') %>

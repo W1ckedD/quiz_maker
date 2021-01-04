@@ -1,0 +1,45 @@
+<%- include('../includes/top.ejs') %> <%- include('../includes/nav.ejs') %>
+
+<div class="container">
+    <%- include('../includes/flash.ejs') %>
+    <div class="tab-container">
+        <div class="tab-bar">
+            <button class="btn btn-tab btn-tab-active" id="btnT">تشریحی</button>
+            <button class="btn btn-tab" id="btnMc">چندگزینه ای</button>
+        </div>
+        <div class="tab show" id="tQuestion">
+            <h1>سوال تشریحی</h1>
+            <form
+                action="/teachers/question-pools/<%= id %>/add-tQuestion/?_csrf=<%=csrfToken%>"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+                <div class="form-group">
+                    <label for="title"> صورت سوال </label>
+                    <textarea
+                        name="title"
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                    ></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="question_img">تصویر</label>
+                    <input
+                        type="file"
+                        name="question_img"
+                        class="form-control"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    افزودن سوال
+                </button>
+            </form>
+        </div>
+        <div class="tab" id="mcQuestion">
+            <h1>سوال چندگزینه ای</h1>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/bottom.ejs') %>

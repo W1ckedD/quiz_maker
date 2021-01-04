@@ -305,14 +305,31 @@ form {
     display: flex;
 }
 
-.file-input {
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    /* border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer; */
+.tab-container {
+    width: 80%;
+    margin: auto;
 }
 
-.file-input input[type="file"] {
-    /* visibility: hidden; */
+.btn-tab {
+    flex: 1;
+}
+
+.btn-tab-active {
+    background-color: var(--primary-color);
+    color: white;
+}
+.tab-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tab {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    /* text-align: center; */
+}
+
+.tab.show {
+    display: flex;
 }
